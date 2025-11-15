@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VAGUE-Gate: Plug-and-Play Local-Privacy Shield for Retrieval-Augmented Generation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Project page for VAGUE-Gate, a plug-and-play local-privacy shield for retrieval-augmented generation.">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #020617;
+      --fg: #e5e7eb;
+      --fg-soft: #9ca3af;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --card: #020617;
+      --border: #1f2937;
+      --code-bg: #020617;
+      --radius-lg: 18px;
+      --radius-sm: 999px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: radial-gradient(circle at top left, #1e293b 0, #020617 45%), var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 20px 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    h1 {
+      margin: 18px 0 8px;
+      font-size: clamp(2.1rem, 3vw, 2.6rem);
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      max-width: 680px;
+      font-size: 15px;
+      color: var(--fg-soft);
+    }
+
+    .meta-line {
+      margin-top: 14px;
+      font-size: 14px;
+      color: var(--fg-soft);
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 28px 0 8px;
+    }
+
+    .nav a {
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--fg-soft);
+    }
+
+    .nav a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .actions {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      border-radius: var(--radius-sm);
+      padding: 9px 15px;
+      font-size: 14px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      background: var(--accent);
+      color: #0b1120;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--fg-soft);
+      border-color: rgba(148, 163, 184, 0.6);
+    }
+
+    .btn.secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    main {
+      max-width: 960px;
+      margin: 16px auto 56px;
+      padding: 0 20px 40px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.3fr) minmax(0, 1.7fr);
+      gap: 22px;
+    }
+
+    @media (max-width: 840px) {
+      header { padding-top: 32px; }
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98));
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 17px;
+    }
+
+    .card p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: var(--fg-soft);
+      line-height: 1.6;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      padding: 3px 9px;
+      font-size: 11px;
+      color: var(--fg-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+      font-size: 14px;
+      color: var(--fg-soft);
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    .code-block {
+      margin-top: 10px;
+      background: var(--code-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      overflow-x: auto;
+      color: var(--fg-soft);
+    }
+
+    .section {
+      margin-top: 22px;
+    }
+
+    .section h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    footer {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px 32px;
+      font-size: 12px;
+      color: var(--fg-soft);
+      border-top: 1px dashed rgba(148, 163, 184, 0.35);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="pill">
+      <span class="pill-dot"></span>
+      <span>Preprint</span>
+      <span>·</span>
+      <span>Privacy-Aware RAG</span>
+    </div>
+
+    <h1>VAGUE-Gate: Plug-and-Play Local-Privacy Shield for Retrieval-Augmented Generation</h1>
+    <p class="subtitle">
+      Lightweight local differential-privacy gate that protects retrieval-augmented generation systems by
+      sanitising retrieved text before it reaches the LLM, balancing strong privacy guarantees with high answer quality.
+    </p>
+
+    <p class="meta-line">
+      Anonymous authors · Under review — ACL<br>
+      All code, data, and prompts will be released upon acceptance.
+    </p>
+
+    <nav class="nav">
+      <a href="#abstract">Abstract</a>
+      <a href="#overview">Overview</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#bibtex">BibTeX</a>
+    </nav>
+
+    <div class="actions">
+      <!-- Replace href with your actual links -->
+      <a class="btn" href="paper.pdf" target="_blank" rel="noopener">📄 Read the paper</a>
+      <a class="btn secondary" href="https://github.com/your-username/your-repo" target="_blank" rel="noopener">💻 Code &amp; data</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid" id="abstract">
+      <article class="card">
+        <div class="badge-row">
+          <span class="badge">Abstract</span>
+          <span class="badge">Local DP</span>
+          <span class="badge">RAG</span>
+        </div>
+        <h2>Abstract</h2>
+        <p>
+          Retrieval-augmented generation (RAG) improves factuality by conditioning on retrieved passages,
+          but it also creates a new privacy attack surface: any sensitive snippet fetched by the retriever
+          can be reproduced by the generator and leaked to the user.
+        </p>
+        <p>
+          VAGUE-Gate is a portable, training-free local-privacy gate that sits in front of any RAG system.
+          Given a privacy budget <em>ε</em>, it first performs a precision pass to drop low-utility tokens,
+          then applies a small number of high-temperature paraphrase passes that obscure residual cues,
+          all while preserving an <em>ε</em>-local differential privacy guarantee.
+        </p>
+        <p>
+          Across eight RAG pipelines and four state-of-the-art LLMs, VAGUE-Gate at <em>ε</em>=0.3
+          cuts lexical leakage by around 70&nbsp;% and reduces semantic leakage, while retaining roughly
+          90&nbsp;% of the faithfulness of a plain RAG baseline and adding only ~240&nbsp;ms of latency.
+        </p>
+      </article>
+
+      <aside class="card">
+        <div class="badge-row">
+          <span class="badge">Quick links</span>
+        </div>
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="paper.pdf" target="_blank" rel="noopener">PDF</a> (camera-ready or latest preprint)</li>
+          <li><a href="https://github.com/your-username/your-repo" target="_blank" rel="noopener">Code repository</a></li>
+          <li><a href="https://huggingface.co/datasets/your-dataset" target="_blank" rel="noopener">PrivRAG / BlendPriv dataset</a></li>
+        </ul>
+
+        <div class="section" id="bibtex">
+          <h3>BibTeX</h3>
+          <pre class="code-block">
+@inproceedings{vague-gate-2025,
+  title     = {VAGUE-Gate: Plug-and-Play Local-Privacy Shield for Retrieval-Augmented Generation},
+  author    = {Anonymous},
+  booktitle = {Proceedings of the ACL},
+  year      = {2025}
+}</pre>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <div class="grid" id="overview">
+        <article class="card">
+          <div class="badge-row">
+            <span class="badge">Method</span>
+          </div>
+          <h2>High-level idea</h2>
+          <p>
+            VAGUE-Gate runs entirely on the data-holder side. It rewrites each retrieved chunk <em>before</em> the
+            LLM sees it, so private atoms are protected even if the generator is untrusted or logs prompts verbatim.
+          </p>
+          <ul>
+            <li>Semantic adaptive chunking with sentence-level privacy labels (Public / Sensitive / Confidential).</li>
+            <li>A precision pass at temperature 0 that drops or generalises atomic facts under an <em>ε</em>-aware rule.</li>
+            <li>A small number of higher-temperature “deep obfuscation” passes that increase vagueness without
+              exceeding the original privacy budget (post-processing property of DP).</li>
+          </ul>
+        </article>
+
+        <article class="card" id="method">
+          <div class="badge-row">
+            <span class="badge">Theory</span>
+          </div>
+          <h2>Privacy guarantee</h2>
+          <p>
+            The gate is proven <em>ε</em>-locally differentially private: for any two inputs differing in one atomic fact,
+            the probability of any output differs by at most a factor of <code>exp(ε)</code>.
+          </p>
+          <p>
+            Only the precision pass is randomised; the paraphrase stages are pure post-processing, and therefore
+            cannot increase privacy loss. This yields a controllable privacy–utility continuum via the choice of <em>ε</em>
+            and the repetition schedule <code>k(ε)</code>.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="grid">
+        <article class="card">
+          <div class="badge-row">
+            <span class="badge">Results</span>
+          </div>
+          <h2>Empirical findings</h2>
+          <ul>
+            <li>Benchmarked on a 10k-question PrivRAG/BlendPriv suite spanning customer service, healthcare, and legal domains.</li>
+            <li>Compared against eight strong baselines: plain, hybrid, and hierarchical RAG, entity-perturbation,
+              and several prompt-level obfuscators.</li>
+            <li>Evaluated on faithfulness, answer relevancy, ROUGE-L, BLEU-4, and two new leakage metrics:
+              a cold-stats Information-Leakage Score and an LLM-as-judge score.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="badge-row">
+            <span class="badge">Implementation</span>
+          </div>
+          <h2>Reproducing the gate</h2>
+          <p>Core ingredients for a minimal implementation:</p>
+          <ul>
+            <li>Sentence-level privacy labels or a classifier to decide which spans to treat as private.</li>
+            <li>Two prompt templates: one deterministic precision prompt and one vaguer paraphrase prompt.</li>
+            <li>A simple scheduler mapping privacy budget <em>ε</em> to number of paraphrase passes <code>k(ε)</code>.</li>
+          </ul>
+          <p>
+            The official implementation (linked above) includes full prompts, hyperparameters, and evaluation scripts.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Last updated: 2025-MM-DD.
+      Hosted on <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a>.
+    </p>
+  </footer>
+</body>
+</html>
